@@ -77,4 +77,33 @@ describe("FormComponent", () => {
 			expect(Object.keys(assets.controls)).toEqual(["0", "1"]);
 		});
 	});
+
+	fdescribe("When deleteAsset is executed", () => {
+		it("Should remove the Formcontroller", () => {
+			const assets = <FormArray>component.secondFormGroup.get("assets");
+
+			component.addAsset();
+			component.deleteAsset(0);
+
+			expect(Object.keys(assets.controls)).toEqual([]);
+		});
+	});
+
+	fdescribe("When savePins is Executed", () => {
+		it("Should navigate to pins view", () => {
+			const navigate = spyOn((<any>component).navigate, "goToPins");
+			const open = spyOn((<any>component).snackBar, "open").and.callThrough();
+
+			component.savePin();
+
+			expect(navigate).toHaveBeenCalled();
+			expect(open).toHaveBeenCalledWith(
+				"Your pin is saved, Redirecting ...",
+				"Cool!",
+				{
+					duration: 2000,
+				}
+			);
+		});
+	});
 });
